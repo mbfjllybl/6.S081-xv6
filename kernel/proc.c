@@ -21,6 +21,20 @@ static void freeproc(struct proc *p);
 
 extern char trampoline[]; // trampoline.S
 
+int
+proc_num(void){
+  struct proc *p;
+  uint64 num = 0;
+  for(p = proc; p < &proc[NPROC]; p++){
+    if(p->state != UNUSED){
+      	num++;
+    }
+  }
+  return num;
+
+
+}
+
 // initialize the proc table at boot time.
 void
 procinit(void)
@@ -274,6 +288,8 @@ fork(void)
     return -1;
   }
   np->sz = p->sz;
+
+  safestrcpy(np->mask, p->mask, sizeof(p->mask));
 
   np->parent = p;
 
