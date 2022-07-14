@@ -2396,9 +2396,9 @@ stacktest(char *s)
   pid = fork();
   if(pid == 0) {
     char *sp = (char *) r_sp();
-    sp -= PGSIZE;
+	sp -= PGSIZE;
     // the *sp should cause a trap.
-    printf("%s: stacktest: read below stack %p\n", *sp);
+	printf("%s: stacktest: read below stack %p\n", *sp);
     exit(1);
   } else if(pid < 0){
     printf("%s: fork failed\n", s);
@@ -2439,7 +2439,8 @@ sbrkbugs(char *s)
   }
   if(pid == 0){
     int sz = (uint64) sbrk(0);
-    // free all user memory; there used to be a bug that
+    printf("sz:%d\n",sz);
+	// free all user memory; there used to be a bug that
     // would not adjust p->sz correctly in this case,
     // causing exit() to panic.
     sbrk(-sz);
@@ -2447,7 +2448,6 @@ sbrkbugs(char *s)
     exit(0);
   }
   wait(0);
-
   pid = fork();
   if(pid < 0){
     printf("fork failed\n");
@@ -2462,7 +2462,6 @@ sbrkbugs(char *s)
     exit(0);
   }
   wait(0);
-
   pid = fork();
   if(pid < 0){
     printf("fork failed\n");
@@ -2480,7 +2479,6 @@ sbrkbugs(char *s)
     exit(0);
   }
   wait(0);
-
   exit(0);
 }
 
